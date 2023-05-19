@@ -5,6 +5,8 @@
 
 The Android Credit Card UI Library is a powerful and customizable library that provides enhanced payment card views for Android applications. With this library, you can easily integrate visually appealing and user-friendly credit card views into your payment processing screens.
 
+**🚀 Coming Soon!** This library is currently under active development and will be available soon. Stay tuned for updates.
+
 ## Features
 
 - **Stunning Visuals:** Create beautiful and modern payment card displays with customizable card backgrounds, gradients, and animations.
@@ -14,21 +16,6 @@ The Android Credit Card UI Library is a powerful and customizable library that p
 - **Accessibility Support:** Maintain accessibility standards by providing support for TalkBack and other accessibility services.
 - **Customization Options:** Customize various aspects of the payment card views, including fonts, colors, icons, and more, to match your app's branding and design guidelines.
 - **Easy Integration:** Seamlessly integrate the library into your Android project using Gradle or by manually adding the library files.
+<!-- 
 
-## Usage Example
-
-```java
-// Create a new CreditCardView instance
-CreditCardView creditCardView = findViewById(R.id.credit_card_view);
-
-// Set credit card details
-creditCardView.setCardNumber("1234567890123456");
-creditCardView.setExpirationDate("12/23");
-creditCardView.setCVV("123");
-
-// Customize the card view appearance
-creditCardView.setCardBackgroundColor(Color.BLUE);
-creditCardView.setCardLogo(R.drawable.ic_card_logo);
-
-// Perform additional actions, such as validating the entered data or saving the card details
 
