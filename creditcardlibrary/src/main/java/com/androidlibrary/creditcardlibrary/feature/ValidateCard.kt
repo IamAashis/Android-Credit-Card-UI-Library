@@ -5,7 +5,8 @@ import android.graphics.drawable.Drawable
 import android.text.Editable
 import android.text.InputFilter
 import android.text.TextWatcher
-import android.widget.EditText
+import android.util.Log
+import androidx.appcompat.widget.AppCompatEditText
 import androidx.core.content.ContextCompat
 import com.androidlibrary.creditcardlibrary.R
 import com.androidlibrary.creditcardlibrary.utils.CardsConstants
@@ -20,14 +21,48 @@ class ValidateCard {
     private var cardNumber = ""
     private var isFormattingExp: Boolean = false
 
-    fun setValidateCardNumber(edtCardNumber: EditText, context: Context) {
+    fun appendExpDate(s: CharSequence?, edtExpDate: AppCompatEditText) {
+        if (!isFormattingExp) {
+            isFormattingExp = true
+            val cleanText = s.toString().replace("\\D+".toRegex(), "")
+            val formattedText = StringBuilder()
+
+            for (i in cleanText.indices) {
+                formattedText.append(cleanText[i])
+                if ((i + 1) % 2 == 0 && i != cleanText.length - 1) {
+                    formattedText.append("/")
+                }
+            }
+
+            edtExpDate.setText(formattedText)
+            edtExpDate.setSelection(formattedText.length)
+            isFormattingExp = false
+        }
+    }
+
+    fun backgroundResources(s: CharSequence?, edtExpDate: AppCompatEditText) {
+        if (s.toString().length >= 4) {
+            if (validateVisaExpDate(s.toString())) {
+                edtExpDate.setBackgroundResource(R.drawable.edt_background)
+            } else {
+                edtExpDate.setBackgroundResource(R.drawable.rdt_background_null)
+            }
+        } else {
+            edtExpDate.setBackgroundResource(R.drawable.rdt_background_null)
+        }
+    }
+
+     fun setValidateCardNumber(
+        edtCardNumber: AppCompatEditText,
+        context: Context
+    ) {
         edtCardNumber.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
 
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                drawableIcon(s, edtCardNumber, context)
+                drawableIcon(s,edtCardNumber, context)
                 maskedEditText(s, edtCardNumber)
             }
 
@@ -35,10 +70,9 @@ class ValidateCard {
 
             }
         })
-
     }
 
-    fun setValidateExpDate(edtExpDate: EditText) {
+    fun setValidateExpDate(edtExpDate: AppCompatEditText) {
         edtExpDate.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
 
@@ -55,64 +89,7 @@ class ValidateCard {
         })
     }
 
-    fun setValidateCvv(edtCvv: EditText) {
-
-        edtCvv.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-
-            }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-//                activeDeactivateButton()
-            }
-
-            override fun afterTextChanged(s: Editable?) {
-
-            }
-        })
-    }
-
-    fun drawableIcon(s: CharSequence?, edtCardNumber: EditText, context: Context) {
-        var drawableResourceId: Int? = null
-
-        if (!s.toString().isNullOrEmpty()) {
-            if (validateCardNumber(s.toString().first().toString()) == null) {
-                edtCardNumber.setCompoundDrawablesRelativeWithIntrinsicBounds(
-                    null, null, null, null
-                )
-                edtCardNumber.setBackgroundResource(R.drawable.rdt_background_null)
-            } else {
-                drawableResourceId = validateCardNumber(s.toString())?.first
-
-                if ((cardType == CardsConstants.americanExpress && cardNumber.length != 15) || (cardType != CardsConstants.americanExpress && cardNumber.length != 16)) {
-                    edtCardNumber.setBackgroundResource(R.drawable.rdt_background_null)
-                } else {
-                    edtCardNumber.setBackgroundResource(R.drawable.edt_background)
-                }
-
-                if (s.toString().isNotEmpty()) {
-                    val myDrawable: Drawable? = drawableResourceId?.let {
-                        ContextCompat.getDrawable(
-                            context, it
-                        )
-                    }
-                    edtCardNumber.setCompoundDrawablesRelativeWithIntrinsicBounds(
-                        myDrawable, null, null, null
-                    )
-                } else {
-                    edtCardNumber.setCompoundDrawablesRelativeWithIntrinsicBounds(
-                        null, null, null, null
-                    )
-                }
-            }
-        } else {
-            edtCardNumber.setCompoundDrawablesRelativeWithIntrinsicBounds(
-                null, null, null, null
-            )
-        }
-    }
-
-    fun maskedEditText(s: CharSequence?, edtCardNumber: EditText) {
+    fun maskedEditText(s: CharSequence?, edtCardNumber: AppCompatEditText) {
         if (!isFormatting) {
             isFormatting = true
             if (validateCardNumber(
@@ -159,12 +136,69 @@ class ValidateCard {
         }
     }
 
-    private fun setMaximumLength(length: Int, edtCardNumber: EditText) {
+    private fun setMaximumLength(length: Int, edtCardNumber: AppCompatEditText) {
         val filterArray = arrayOf<InputFilter>(InputFilter.LengthFilter(length))
         edtCardNumber.filters = filterArray
     }
 
-    fun validateCardNumber(cardNumber: String): Pair<Int, String>? {
+    private fun validateVisaExpDate(expDate: String): Boolean {
+        val dateFormat = SimpleDateFormat("MM/yy")
+        dateFormat.isLenient = false
+
+        return try {
+            val parsedDate = dateFormat.parse(expDate)
+            val currentDate = Calendar.getInstance().apply { time = Date() }
+            val expDate = Calendar.getInstance().apply { time = parsedDate }
+
+            currentDate.before(expDate) || currentDate == expDate
+        } catch (e: ParseException) {
+            false
+        }
+    }
+
+    fun drawableIcon(s: CharSequence?, edtCardNumber: AppCompatEditText, context: Context) {
+        var drawableResourceId: Int? = null
+        Log.d("cardNumber", validateCardNumber(s.toString())?.second.toString())
+        cardNumber = edtCardNumber.text?.replace("\\s".toRegex(), "").toString()
+
+        if (!s.toString().isNullOrEmpty()) {
+            if (validateCardNumber(s.toString().first().toString()) == null) {
+                edtCardNumber.setCompoundDrawablesRelativeWithIntrinsicBounds(
+                    null, null, null, null
+                )
+                edtCardNumber.setBackgroundResource(R.drawable.rdt_background_null)
+            } else {
+                drawableResourceId = validateCardNumber(s.toString())?.first
+
+                if ((cardType == CardsConstants.americanExpress && cardNumber.length != 15) || (cardType != CardsConstants.americanExpress && cardNumber.length != 16)) {
+                    edtCardNumber.setBackgroundResource(R.drawable.rdt_background_null)
+                } else {
+                    edtCardNumber.setBackgroundResource(R.drawable.edt_background)
+                }
+
+                if (s.toString().isNotEmpty()) {
+                    val myDrawable: Drawable = drawableResourceId?.let {
+                        ContextCompat.getDrawable(
+                            context, it
+                        )
+                    }!!
+                    edtCardNumber.setCompoundDrawablesRelativeWithIntrinsicBounds(
+                        myDrawable, null, null, null
+                    )
+                } else {
+                    edtCardNumber.setCompoundDrawablesRelativeWithIntrinsicBounds(
+                        null, null, null, null
+                    )
+                }
+            }
+        } else {
+            edtCardNumber.setCompoundDrawablesRelativeWithIntrinsicBounds(
+                null, null, null, null
+            )
+        }
+    }
+
+    private fun validateCardNumber(cardNumber: String): Pair<Int, String>? {
 
         if (cardNumber.length >= 1) {
             return when (cardNumber.firstOrNull()) {
@@ -227,52 +261,6 @@ class ValidateCard {
                 R.drawable.ic_discover, CardsConstants.discover
             )
             else -> null
-        }
-    }
-
-    fun appendExpDate(s: CharSequence?, edtExpDate: EditText) {
-        if (!isFormattingExp) {
-            isFormattingExp = true
-            val cleanText = s.toString().replace("\\D+".toRegex(), "")
-            val formattedText = StringBuilder()
-
-            for (i in cleanText.indices) {
-                formattedText.append(cleanText[i])
-                if ((i + 1) % 2 == 0 && i != cleanText.length - 1) {
-                    formattedText.append("/")
-                }
-            }
-
-            edtExpDate.setText(formattedText)
-            edtExpDate.setSelection(formattedText.length)
-            isFormattingExp = false
-        }
-    }
-
-    fun backgroundResources(s: CharSequence?, edtExpDate: EditText) {
-        if (s.toString().length >= 4) {
-            if (validateVisaExpDate(s.toString())) {
-                edtExpDate.setBackgroundResource(R.drawable.edt_background)
-            } else {
-                edtExpDate.setBackgroundResource(R.drawable.rdt_background_null)
-            }
-        } else {
-            edtExpDate.setBackgroundResource(R.drawable.rdt_background_null)
-        }
-    }
-
-    private fun validateVisaExpDate(expDate: String): Boolean {
-        val dateFormat = SimpleDateFormat("MM/yy")
-        dateFormat.isLenient = false
-
-        return try {
-            val parsedDate = dateFormat.parse(expDate)
-            val currentDate = Calendar.getInstance().apply { time = Date() }
-            val expDate = Calendar.getInstance().apply { time = parsedDate }
-
-            currentDate.before(expDate) || currentDate == expDate
-        } catch (e: ParseException) {
-            false
         }
     }
 }

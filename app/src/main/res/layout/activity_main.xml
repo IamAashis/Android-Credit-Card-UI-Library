@@ -1,20 +1,93 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/rltAppBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/txvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="18dp"
+            android:text="Add Card"
+            android:textColor="@color/black"
+            android:textSize="21sp"
+            android:textStyle="bold" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="6dp"
+            android:layout_below="@+id/txvTitle"
+            android:layout_marginTop="8dp"
+            android:background="#EAEAEA" />
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/txvCardName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rltAppBar"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="Name"
+        android:textColor="@color/black"
+        android:textSize="17sp"
+        android:textStyle="bold" />
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/etCardName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txvCardName"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/edt_background"
+        android:drawablePadding="4dp"
+        android:maxLength="19"
+        android:padding="10dp"
+        android:singleLine="true"
+        android:textColor="#000000"
+        android:textSize="18sp"
+        app:lineHeight="31sp" />
+
+    <View
+        android:id="@+id/txvVewTopLayer"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/etCardName"
+        android:layout_marginTop="10dp"
+        android:background="#EAEAEA" />
+
+    <TextView
+        android:id="@+id/txvCardNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/etCardName"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="Card Number"
+        android:textColor="@color/black"
+        android:textSize="17sp"
+        android:textStyle="bold" />
 
     <androidx.appcompat.widget.AppCompatEditText
         android:id="@+id/etCardNumber"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/txvCardNumber"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
+        android:background="@drawable/edt_background"
         android:drawablePadding="4dp"
-        android:hint="This is yrcy"
         android:inputType="phone"
         android:maxLength="19"
         android:padding="10dp"
@@ -23,4 +96,116 @@
         android:textSize="18sp"
         app:lineHeight="31sp" />
 
-</LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/etCardNumber"
+        android:layout_marginTop="10dp"
+        android:background="#EAEAEA" />
+
+    <LinearLayout
+        android:id="@+id/lltLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/etCardNumber"
+        android:weightSum="10">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="5"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/txvExpDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:text="Expiry Date"
+                android:textColor="@color/black"
+                android:textSize="17sp"
+                android:textStyle="bold" />
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/edtExpDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txvCardNumber"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:background="@drawable/edt_background"
+                android:drawablePadding="4dp"
+                android:inputType="phone"
+                android:maxLength="5"
+                android:padding="10dp"
+                android:singleLine="true"
+                android:textColor="#000000"
+                android:textSize="18sp"
+                app:lineHeight="31sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="5"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/txvCvv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:text="CVV"
+                android:textColor="@color/black"
+                android:textSize="17sp"
+                android:textStyle="bold" />
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/edtCVV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txvCardNumber"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:background="@drawable/edt_background"
+                android:drawablePadding="4dp"
+                android:inputType="phone"
+                android:maxLength="19"
+                android:padding="10dp"
+                android:singleLine="true"
+                android:textColor="#000000"
+                android:textSize="18sp"
+                app:lineHeight="31sp" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/lltLayout"
+        android:layout_marginTop="8dp"
+        android:background="#D8D8D8" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnAddCard"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:background="@color/btnBackGround"
+        android:padding="13dp"
+        android:text="Submit"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="17sp" />
+
+</RelativeLayout>

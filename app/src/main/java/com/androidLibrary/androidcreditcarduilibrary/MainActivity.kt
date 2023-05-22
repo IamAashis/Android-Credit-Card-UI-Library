@@ -13,8 +13,16 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
 
-        ValidateCard().setValidateCardNumber(binding.etCardNumber, this)
+        setup()
         setContentView(binding.root)
+    }
 
+    private fun setup() {
+        addValidation()
+    }
+
+    private fun addValidation() {
+        ValidateCard().setValidateCardNumber(binding.etCardNumber, this)
+        ValidateCard().setValidateExpDate(binding.edtExpDate)
     }
 }
