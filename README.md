@@ -1,7 +1,7 @@
 # Android Credit Card UI Library: Enhanced Payment Card Views
 
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
-[![Release](https://img.shields.io/github/v/release/your-library-repo/credit-card-ui-library.svg)](https://github.com/your-library-repo/credit-card-ui-library/releases)
+[![Release](https://img.shields.io/github/v/release/your-library-repo/credit-card-ui-library.svg)]([https://github.com/your-library-repo/credit-card-ui-library/releases](https://github.com/IamAashis/Android-Credit-Card-UI-Library-Enhanced-Payment-Card-Views/releases/tag/0.1))
 
 The Android Credit Card UI Library is a powerful and customizable library that provides enhanced payment card views for Android applications. With this library, you can easily integrate visually appealing and user-friendly credit card views into your payment processing screens.
 
