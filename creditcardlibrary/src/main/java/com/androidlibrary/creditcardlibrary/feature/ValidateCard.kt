@@ -2,8 +2,6 @@ package com.androidlibrary.creditcardlibrary.feature
 
 import android.content.Context
 import android.graphics.drawable.Drawable
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
 import android.text.Editable
 import android.text.InputFilter
 import android.text.TextWatcher
@@ -15,19 +13,14 @@ import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
 
-class ValidateCardActivity {
+class ValidateCard {
 
     private var isFormatting: Boolean = false
     private var cardType = ""
     private var cardNumber = ""
     private var isFormattingExp: Boolean = false
 
-//    override fun onCreate(savedInstanceState: Bundle?) {
-//        super.onCreate(savedInstanceState)
-//        setContentView(R.layout.activity_validate_card)
-//    }
-
-     fun validateCardNumber(edtCardNumber: EditText, context: Context) {
+    fun setValidateCardNumber(edtCardNumber: EditText, context: Context) {
         edtCardNumber.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
 
@@ -45,7 +38,7 @@ class ValidateCardActivity {
 
     }
 
-    fun validateExpDate(edtExpDate: EditText) {
+    fun setValidateExpDate(edtExpDate: EditText) {
         edtExpDate.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
 
@@ -62,7 +55,7 @@ class ValidateCardActivity {
         })
     }
 
-    fun validateCvv(edtCvv: EditText) {
+    fun setValidateCvv(edtCvv: EditText) {
 
         edtCvv.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
@@ -179,10 +172,10 @@ class ValidateCardActivity {
                     Pair(R.drawable.ic_visa, CardsConstants.visa)
                 }
                 '5' -> {
-                    Pair(R.drawable.ic_master, CardsConstants.masterCard)
+                    Pair(R.drawable.ic_mastercard, CardsConstants.masterCard)
                 }
                 '3' -> {
-                    Pair(R.drawable.ic_american_express, CardsConstants.americanExpress)
+                    Pair(R.drawable.ic_americanexpress, CardsConstants.americanExpress)
                 }
                 '6' -> {
                     Pair(R.drawable.ic_discover, CardsConstants.discover)
@@ -195,10 +188,10 @@ class ValidateCardActivity {
                     return Pair(R.drawable.ic_visa, CardsConstants.visa)
                 }
                 in 51..55 -> {
-                    return Pair(R.drawable.ic_master, CardsConstants.masterCard)
+                    return Pair(R.drawable.ic_mastercard, CardsConstants.masterCard)
                 }
                 34, 37 -> {
-                    return Pair(R.drawable.ic_american_express, CardsConstants.americanExpress)
+                    return Pair(R.drawable.ic_americanexpress, CardsConstants.americanExpress)
                 }
                 60, 62, 64, 65 -> {
                     return Pair(R.drawable.ic_discover, CardsConstants.discover)
@@ -225,10 +218,10 @@ class ValidateCardActivity {
         return when {
             visaPattern.matches(cleanedCardNumber) -> Pair(R.drawable.ic_visa, CardsConstants.visa)
             mastercardPattern.matches(cleanedCardNumber) -> Pair(
-                R.drawable.ic_master, CardsConstants.masterCard
+                R.drawable.ic_mastercard, CardsConstants.masterCard
             )
             americanExpressPattern.matches(cleanedCardNumber) -> Pair(
-                R.drawable.ic_american_express, CardsConstants.americanExpress
+                R.drawable.ic_americanexpress, CardsConstants.americanExpress
             )
             discoverPattern.matches(cleanedCardNumber) -> Pair(
                 R.drawable.ic_discover, CardsConstants.discover
