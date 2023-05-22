@@ -1,5 +1,6 @@
 package com.androidlibrary.creditcardlibrary.feature
 
+import android.content.Context
 import android.graphics.drawable.Drawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -14,26 +15,26 @@ import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
 
-class ValidateCardActivity : AppCompatActivity() {
+class ValidateCardActivity {
 
     private var isFormatting: Boolean = false
     private var cardType = ""
     private var cardNumber = ""
     private var isFormattingExp: Boolean = false
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_validate_card)
-    }
+//    override fun onCreate(savedInstanceState: Bundle?) {
+//        super.onCreate(savedInstanceState)
+//        setContentView(R.layout.activity_validate_card)
+//    }
 
-    private fun validateCardNumber(edtCardNumber: EditText) {
+     fun validateCardNumber(edtCardNumber: EditText, context: Context) {
         edtCardNumber.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
 
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                drawableIcon(s, edtCardNumber)
+                drawableIcon(s, edtCardNumber, context)
                 maskedEditText(s, edtCardNumber)
             }
 
@@ -78,9 +79,8 @@ class ValidateCardActivity : AppCompatActivity() {
         })
     }
 
-    fun drawableIcon(s: CharSequence?, edtCardNumber: EditText) {
+    fun drawableIcon(s: CharSequence?, edtCardNumber: EditText, context: Context) {
         var drawableResourceId: Int? = null
-//        Log.d("cardNumber", validateCardNumber(s.toString()).second.toString())
 
         if (!s.toString().isNullOrEmpty()) {
             if (validateCardNumber(s.toString().first().toString()) == null) {
@@ -98,11 +98,11 @@ class ValidateCardActivity : AppCompatActivity() {
                 }
 
                 if (s.toString().isNotEmpty()) {
-                    val myDrawable: Drawable = drawableResourceId?.let {
+                    val myDrawable: Drawable? = drawableResourceId?.let {
                         ContextCompat.getDrawable(
-                            this@ValidateCardActivity, it
+                            context, it
                         )
-                    }!!
+                    }
                     edtCardNumber.setCompoundDrawablesRelativeWithIntrinsicBounds(
                         myDrawable, null, null, null
                     )
@@ -282,5 +282,4 @@ class ValidateCardActivity : AppCompatActivity() {
             false
         }
     }
-
 }
